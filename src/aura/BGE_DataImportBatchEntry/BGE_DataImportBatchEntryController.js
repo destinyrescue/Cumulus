@@ -68,6 +68,30 @@
         }.bind(helper));
     },
 
+    onEditClick_2: function(component, event, helper) {
+        let openBatchWizard = function () {
+            return helper.openBatchWizard(component)
+        };
+
+        helper.checkFieldPermissions(component, openBatchWizard);
+    },
+
+    onEditClick_3: function (component, event, helper) {
+        let openBatchWizard = function () {
+            helper.openBatchWizard(component);
+        }
+
+        let checkFieldPermissionsPromise = helper.checkFieldPermissions_Promise(component);
+
+        checkFieldPermissionsPromise.then(
+            $A.getCallback(function (result) {
+                openBatchWizard();
+            })).catch(
+            $A.getCallback(function (err) {
+                helper.handleApexErrors(component, err);
+            }));
+    },
+
     /**
      * @description: handles infinite scroll for the Data Import records datatable
      */

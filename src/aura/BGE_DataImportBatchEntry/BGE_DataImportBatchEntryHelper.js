@@ -450,6 +450,22 @@
         $A.enqueueAction(action);
     },
 
+    checkFieldPermissions_Promise: function(component) {
+        var p = new Promise($A.getCallback( function(resolve, reject){
+            var action = component.get('c.checkFieldPermissions');
+            action.setCallback(this, function (response) {
+                var state = response.getState();
+                if (state === 'SUCCESS') {
+                    resolve(response.getReturnValue());
+                } else if (state === 'ERROR') {
+                    reject(response.getError());
+                }
+            });
+            $A.enqueueAction(action);
+        }));
+        return p;
+    },
+
     /**
      * @description: opens the batch wizard modal for edit mode of the component
      */
